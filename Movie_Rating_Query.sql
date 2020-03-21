@@ -53,4 +53,27 @@ FROM Movie, Reviewer, Rating
 WHERE Movie.mID = Rating.mID AND Reviewer.rID = Rating.rID
 ORDER BY name, title, stars
 
+/*
+For all cases where the same reviewer rated the same movie twice and gave it a higher rating the second time, 
+return the reviewer's name and the title of the movie.
+*/
+SELECT DISTINCT name, title
+FROM Movie, Reviewer, Rating, Rating R2
+WHERE Movie.mID = Rating.mID AND Reviewer.rID = Rating.rID
+AND Movie.mID = R2.mID AND R2.rID = Rating.rID
+AND Rating.stars < R2.stars AND Rating.ratingDate < R2.ratingDate
+
+
+
+/*
+For each movie that has at least one rating, find the highest number of stars that movie received. 
+Return the movie title and number of stars. Sort by movie title.
+*/
+SELECT DISTINCT title, MAX(stars)
+FROM Movie JOIN Rating USING(mID)
+GROUP BY title
+ORDER BY title
+
+
+
 
