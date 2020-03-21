@@ -24,3 +24,33 @@ FROM Movie JOIN Rating
 WHERE Movie.mID = Rating.mID 
     AND Rating.stars >= 4
 ORDER BY year
+
+
+
+-- Find the titles of all movies that have no ratings.
+SELECT title 
+FROM Movie 
+EXCEPT
+SELECT DISTINCT title 
+FROM Movie JOIN Rating
+WHERE Movie.mID = Rating.mID
+
+
+-- Some reviewers didn't provide a date with their rating. 
+-- Find the names of all reviewers who have ratings with a NULL value for the date.
+SELECT DISTINCT name 
+FROM Reviewer, Rating 
+WHERE Reviewer.rID = Rating.rID 
+    AND Rating.ratingDate IS NULL
+
+
+/*
+Write a query to return the ratings data in a more readable format: reviewer name, movie title, stars, and ratingDate. 
+Also, sort the data, first by reviewer name, then by movie title, and lastly by number of stars.
+*/
+SELECT DISTINCT name, title, stars, ratingDate 
+FROM Movie, Reviewer, Rating
+WHERE Movie.mID = Rating.mID AND Reviewer.rID = Rating.rID
+ORDER BY name, title, stars
+
+
