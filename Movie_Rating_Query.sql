@@ -75,5 +75,35 @@ GROUP BY title
 ORDER BY title
 
 
+/*
+For each movie, return the title and the 'rating spread', that is, the difference between highest and lowest ratings given to that movie. 
+Sort by rating spread from highest to lowest, then by movie title.
+*/
+SELECT title, (MAX(stars) - MIN(stars)) AS spread
+FROM Rating JOIN Movie USING(mID)
+GROUP BY mID
+ORDER BY spread DESC, title
 
+
+/*
+Find the difference between the average rating of movies released before 1980 and the average rating of movies released after 1980. 
+(Make sure to calculate the average rating for each movie, 
+then the average of those averages for movies before 1980 and movies after. 
+Don't just calculate the overall average rating before and after 1980.)
+*/
+SELECT (-AVG(after.avgafter80) + AVG(before.avgbefore80))
+FROM
+(
+SELECT AVG(stars) as avgbefore80
+FROM Rating JOIN Movie USING(mID)
+WHERE year < 1980
+GROUP BY title
+) AS before
+,
+(
+SELECT AVG(stars) as avgafter80
+FROM Rating JOIN Movie USING(mID)
+WHERE year > 1980
+GROUP BY title
+) AS after
 
