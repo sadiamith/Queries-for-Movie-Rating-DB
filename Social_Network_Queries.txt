@@ -92,6 +92,23 @@ WHERE (H1.ID = L.ID1 AND H2.ID = L.ID2) AND H2.ID NOT IN (
 ) AND (H1.ID = F1.ID1 AND H3.ID = F1.ID2) AND (H2.ID = F2.ID1 AND H3.ID = F2.ID2);
 
 
+/*
+Find the difference between 
+the number of students in the school and the number of different first names.
+*/
+SELECT COUNT(*) - COUNT(DISTINCT name)
+FROM Highschooler;
+
+/*
+Find the name and grade of all students who are liked by more than one other student
+*/
+SELECT name, grade
+FROM Highschooler
+INNER JOIN Likes ON Highschooler.ID = Likes.ID2
+GROUP BY ID2
+HAVING COUNT(*) > 1;
+
+
 
 
 
