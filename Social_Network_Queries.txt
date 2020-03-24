@@ -132,7 +132,19 @@ Q1: It's time for the seniors to graduate. Remove all 12th graders from Highscho
 DELETE FROM Highschooler
 WHERE grade = 12;
 
-
+/*
+If two students A and B are friends, and A likes B but not vice-versa, remove the Likes tuple
+*/
+DELETE FROM Likes
+WHERE ID2 IN (
+  SELECT ID2
+  FROM Friend
+  WHERE Friend.ID1 = Likes.ID1
+) AND ID2 NOT IN (
+  SELECT L.ID1
+  FROM Likes L
+  WHERE L.ID2 = Likes.ID1
+);
 
 
 
